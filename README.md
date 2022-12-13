@@ -83,6 +83,6 @@ Refer to the [CHANGELOG.md](https://github.com/henriquelino/configjy/blob/main/C
 [stars-image]: https://img.shields.io/github/stars/henriquelino/configjy
 [stars-url]: https://github.com/henriquelino/configjy
 
-[versions-image]: https://img.shields.io/pypi/pyversions/retimer
-[versions-url]: https://pypi.org/project/retimer/
+[versions-image]: https://img.shields.io/pypi/pyversions/configjy
+[versions-url]: https://pypi.org/project/configjy/
 
