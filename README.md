@@ -74,8 +74,8 @@ Refer to the [CHANGELOG.md](https://github.com/henriquelino/configjy/blob/main/C
 
 <!-- Badges -->
 
-[pypi-image]: https://img.shields.io/pypi/v/basic-return
-[pypi-url]: https://pypi.org/project/basic-return/
+[pypi-image]: https://img.shields.io/pypi/v/configjy
+[pypi-url]: https://pypi.org/project/configjy/
 
 [build-image]: https://github.com/henriquelino/configjy/actions/workflows/build.yaml/badge.svg
 [build-url]: https://github.com/henriquelino/configjy/actions/workflows/build.yaml
