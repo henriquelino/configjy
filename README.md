@@ -23,7 +23,7 @@ python -m pip install configjy
 
 ```python
 
-from src.configjy import ConfigFile
+from configjy import ConfigFile
 
 # given this file:
 """

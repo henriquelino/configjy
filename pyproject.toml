@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "configjy"
-version = "0.1.0.1"
+version = "0.1.0.2"
 description = "Loads a json or yaml config file"
 authors = ["henrique lino <henrique.lino97@gmail.com>"]
 readme = "README.md"
