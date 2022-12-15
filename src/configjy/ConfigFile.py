@@ -80,10 +80,10 @@ class ConfigFile:
         files = set()
         for ext in self.extensions:
             possible_config_file = self.path / f"{self.name}{ext}"
-            logger.critical(f"{possible_config_file = }")
             files.add(possible_config_file)
             if possible_config_file.exists():
                 # if the file exists, return it as a possible file to be loaded
+                logger.debug(f"{possible_config_file = }")
                 return possible_config_file
 
         msg = "Atenção!!\n\n{}\n\nNão existem! Crie algum desses arquivos na pasta:\n'{}'!".format(
