@@ -1,1 +1,1 @@
-from .ConfigFile import ConfigFile, UnsupportedExtension
+from .ConfigFile import ConfigFile, UnsupportedExtension  # noqa: F401
