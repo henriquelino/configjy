@@ -165,13 +165,13 @@ class ConfigFile:
             self.config_file_path = self.path
         else:
             self.config_file_path = self.__find_config_file()
-
-        self.__config = self.__load_config_file(self.config_file_path)
-        self.__load_config_vars(self.__config)
+        
+        self.reload()
         return
 
     def reload(self):
         """Reloads file, useful for long-running scripts if you want to change the file mid-run"""
+        self.__config = self.__load_config_file(self.config_file_path)
         self.__load_config_vars(self.__config)
         return self
 

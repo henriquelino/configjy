@@ -1,4 +1,11 @@
 
+<a id='changelog-v0.1.0.5'></a>
+# v0.1.0.5 — 2023-03-02
+
+## Fixed
+
+- `reload` method wasn't updating file so it doesnt work, now reload also reopens the source file
+
 <a id='changelog-v0.1.0.4'></a>
 # v0.1.0.4 — 2023-03-01
 
