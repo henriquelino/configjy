@@ -8,11 +8,7 @@ from ruamel.yaml import YAML
 
 logger = logging.getLogger(__name__)
 yaml = YAML()
-yaml.indent(
-    mapping=4,
-    sequence=4,
-    offset=2
-)  # https://stackoverflow.com/questions/44388701/how-get-the-sequences-properly-indented-with-ruamel-yaml
+yaml.indent(mapping=4, sequence=4, offset=2)  # https://stackoverflow.com/questions/44388701/how-get-the-sequences-properly-indented-with-ruamel-yaml
 
 DEFAULT_CONFIG_FILE_NAME = "config"
 
@@ -86,23 +82,21 @@ class ConfigFile:
                 logger.debug(f"{possible_config_file = }")
                 return possible_config_file
 
-        msg = "Atenção!!\n\n{}\n\nNão existem! Crie algum desses arquivos na pasta:\n'{}'!".format(
-            '\n'.join(str(file) for file in files),
-            str(self.path)
-        )
+        msg = "Atenção!!\n\n{}\n\nNão existem! Crie algum desses arquivos na pasta:\n'{}'!".format('\n'.join(str(file) for file in files), str(self.path))
         logger.critical(msg)
         raise FileNotFoundError(msg)
 
-    def __load_config_vars(self, config_file: Path) -> None:
-        """Loads the config file to the loaded_vars variable
+    def __load_config_file(self, config_file: Path) -> dict:
+        """Loads the config dict to the loaded_vars variable
 
         ---
         ### Entradas:
-            * ``config_file`` (str) : Path até um arquivo de configuração, extenção .yml, .yaml ou .json
+            * ``config_file`` (Path) : Path to a file to be read, the file should be an .json or .yaml format
         ---
         ### Saídas:
             * ``None``
         """
+
         logger.debug(f"Abrindo o arquivo de configuração: '{config_file}'.")
 
         extension = config_file.suffix
@@ -121,6 +115,19 @@ class ConfigFile:
                 logger.warning(msg)
                 raise
 
+        return config
+
+    def __load_config_vars(self, config: dict) -> None:
+        """Loads the config dict to the loaded_vars variable
+
+        ---
+        ### Entradas:
+            * ``config`` (dict) : dict from file to be loaded into class variables
+        ---
+        ### Saídas:
+            * ``None``
+        """
+
         for key, value in config.items():
             value = self.__load(value, globals())
             value = self.__load(value, self.__dict__)
@@ -128,9 +135,7 @@ class ConfigFile:
             self.loaded_vars[key] = value
 
             if self.print_when_create:
-                logger.critical(
-                    f"\n{'-'*60}\nVariavel criada:\nNome: '{key}'\nValor: '{json.dumps(value, indent = 4, default = str)}'\nTipo: '{type(value)}'\n{'-'*60}\n"
-                )
+                logger.critical(f"\n{'-'*60}\nVariavel criada:\nNome: '{key}'\nValor: '{json.dumps(value, indent = 4, default = str)}'\nTipo: '{type(value)}'\n{'-'*60}\n")
         return
 
     def __init__(self, path: Union[str, Path], *, name="config", extensions=(".yaml", ".yml", ".json"), print_when_create=True):
@@ -160,12 +165,14 @@ class ConfigFile:
             self.config_file_path = self.path
         else:
             self.config_file_path = self.__find_config_file()
-        self.__load_config_vars(self.config_file_path)
+
+        self.__config = self.__load_config_file(self.config_file_path)
+        self.__load_config_vars(self.__config)
         return
 
     def reload(self):
         """Reloads file, useful for long-running scripts if you want to change the file mid-run"""
-        self.__load_config_vars(self.config_file_path)
+        self.__load_config_vars(self.__config)
         return self
 
     def get(self, attr: str, default=None, *, print_when_not_exists=True, raise_when_not_exists=False):
@@ -186,9 +193,7 @@ class ConfigFile:
                 if raise_when_not_exists:
                     raise KeyError(f"Key '{attr}' does not exists!")
                 if print_when_not_exists:
-                    logger.warn(
-                        f"\n{'-'*80}\n\tKey '{attr}' does not exists! Returning default value: '{default}'\n{'-'*80}"
-                    )
+                    logger.warning(f"\n{'-'*80}\n\tKey '{attr}' does not exists! Returning default value: '{default}'\n{'-'*80}")
                 return default
         return value
 
