@@ -135,10 +135,16 @@ class ConfigFile:
             self.loaded_vars[key] = value
 
             if self.print_when_create:
-                logger.critical(f"\n{'-'*60}\nVariavel criada:\nNome: '{key}'\nValor: '{json.dumps(value, indent = 4, default = str)}'\nTipo: '{type(value)}'\n{'-'*60}\n")
+                logger.debug(f"\n{'-'*60}\nVariavel criada:\nNome: '{key}'\nValor: '{json.dumps(value, indent = 4, default = str)}'\nTipo: '{type(value)}'\n{'-'*60}\n")
         return
 
-    def __init__(self, path: Union[str, Path], *, name="config", extensions=(".yaml", ".yml", ".json"), print_when_create=True):
+    def __init__(
+            self,
+            path: Union[str, Path],
+            *,
+            name="config",
+            extensions=(".yaml", ".yml", ".json"),
+            print_when_create=False):
         """Loads file content into a class
         If path to a file is given, uses the path, else searchs for name + extensions\n
         #### Usage:\n
